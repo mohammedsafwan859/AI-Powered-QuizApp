@@ -1,5 +1,5 @@
 require('dotenv').config(); // MUST be the first line
-
+const cors = require('cors');
 const express = require('express');
 const http = require('http');
 const { Server } = require("socket.io");
@@ -9,6 +9,8 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY); 
 
 const app = express();
+app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:5173" }));
+
 const httpServer = http.createServer(app);
 
 const io = new Server(httpServer, {
